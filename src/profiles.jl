@@ -154,29 +154,18 @@ function perf_profile!(y, αs, f_hist, N_hist, prob_list::Vector{Int}, algo::Uni
     return y
 end
 
-function data_profile!(y, ks, f_hist, N_hist, prob_list::Vector{Int}, algo::Union{Int, String}, τ::Real, algo_list::Union{Vector{Int}, Vector{String}}; λ_toggle::Bool = false, effort_choice::String = "UL")
+function data_profile!(y, ks, f_hist, N_hist, prob_list::Vector{Int}, algo::Union{Int, String}, τ::Real, algo_list::Union{Vector{Int}, Vector{String}}; effort_choice::String = "UL")
     count = 0
     @inbounds for l in eachindex(ks)
         k = ks[l]
         @inbounds for prob in eachindex(prob_list)
             Nap_data, Tap_data = Nap(f_hist, N_hist, algo, prob, τ, algo_list)
-            model = get_bilevel_problem(prob_list[prob])
-            if λ_toggle # if we scaled the UL evaluations with λ
-                if effort_choice == "UL"
-                    dimprob = (model.dim[1] + 1)
-                elseif effort_choice == "LL"
-                    dimprob = (model.dim[2] + 1)
-                else
-                    dimprob = (model.dim[1] + 1) * (model.dim[2] + 1)
-                end
-            else # otherwise, depends on the budget choice
-                if effort_choice == "UL"
-                    dimprob = model.dim[1] + 1
-                elseif effort_choice == "LL"
-                    dimprob = model.dim[2] +1
-                else
-                    dimprob = (model.dim[1] + 1) * (model.dim[2] + 1)
-                end
+            if effort_choice == "UL"
+                dimprob = model.dim[1] + 1
+            elseif effort_choice == "LL"
+                dimprob = model.dim[2] +1
+            else
+                dimprob = (model.dim[1] + 1) * (model.dim[2] + 1)
             end
             if Nap_data ≤ k * (dimprob) * Tap_data
                 count += 1
