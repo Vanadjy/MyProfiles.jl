@@ -1,20 +1,15 @@
 name = "MyProfiles"
 uuid = "a413fb57-6177-4697-b756-3d6cd9608c64"
-version = "0.1.0"
 authors = ["Valentin Dijon <vanadjy@gmail.com> and contributors"]
+version = "0.1.0"
 
 [deps]
-BOLIB = "adf32eb0-fe7e-47bb-93e4-fe96e72f6839"
 Emporium = "4f286ecd-06d3-4492-bdef-0ca090b7d070"
 Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
 GitHub = "bc5e4493-9b4d-5f90-b8aa-2b2bcaad7a26"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 
-[sources]
-BOLIB = {rev = "main", url = "https://github.com/Vanadjy/BOLIB.jl"}
-
 [compat]
-BOLIB = "0.1.0"
 Emporium = "0.2.4"
 Formatting = "0.4"
 GitHub = "5"

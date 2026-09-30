@@ -154,18 +154,19 @@ function perf_profile!(y, αs, f_hist, N_hist, prob_list::Vector{Int}, algo::Uni
     return y
 end
 
-function data_profile!(y, ks, f_hist, N_hist, prob_list::Vector{Int}, algo::Union{Int, String}, τ::Real, algo_list::Union{Vector{Int}, Vector{String}}; effort_choice::String = "UL")
+function data_profile!(y, ks, f_hist, N_hist, prob_list::Vector{Int}, dim_prob_list::Vector{Tuple{Int64, Int64}}, algo::Union{Int, String}, τ::Real, algo_list::Union{Vector{Int}, Vector{String}}; effort_choice::String = "UL")
     count = 0
+    @assert length(dim_prob_list) == length(prob_list) "ERROR: Each problem should associated to specific dimesions"
     @inbounds for l in eachindex(ks)
         k = ks[l]
         @inbounds for prob in eachindex(prob_list)
             Nap_data, Tap_data = Nap(f_hist, N_hist, algo, prob, τ, algo_list)
             if effort_choice == "UL"
-                dimprob = model.dim[1] + 1
+                dimprob = dim_prob_list[prob][1] + 1
             elseif effort_choice == "LL"
-                dimprob = model.dim[2] +1
+                dimprob = dim_prob_list[prob][2] +1
             else
-                dimprob = (model.dim[1] + 1) * (model.dim[2] + 1)
+                dimprob = (dim_prob_list[prob][1] + 1) * (dim_prob_list[prob][2] + 1)
             end
             if Nap_data ≤ k * (dimprob) * Tap_data
                 count += 1

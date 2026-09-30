@@ -6,6 +6,7 @@ include("create_data.jl")
 n_probs = 50
 n_algos = 2
 prob_list = collect(1:n_probs)
+dim_prob_list = fill((2,2), n_probs)
 algo_list = collect(1:n_algos)
 data_f = f_hists_data(n_probs, n_algos)
 data_N = N_hists_data(n_probs, n_algos)
@@ -49,10 +50,10 @@ end
                   data_f, 
                   data_N, 
                   prob_list, 
+                  dim_prob_list, 
                   algo, 
                   τ, 
                   algo_list; 
-                  λ_toggle = false, 
                   effort_choice = "Agregate")
     
   end
